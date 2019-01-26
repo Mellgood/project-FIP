@@ -2,6 +2,9 @@ from tkinter import *
 
 from RefereeDataCollector import GameFinder
 
+# to build project for testers: pyinstaller --onefile --hidden-import tkinter SearchMatchesGui.py
+
+# to build for production: pyinstaller --onefile --hidden-import tkinter --noconsole SearchMatchesGui.py
 
 class HoverButton(Button):
     def __init__(self, master, **kw):
@@ -51,6 +54,7 @@ class SearchView():
                 a.match_times[game_number]) + "\n-----------------------------------------------\n"
 
         self.search_text_box(result_str)
+        RefereeStats(self.name_entry.get(), self.surname_entry.get())
 
     def search_text_box(self, result_str):
         self.textBox = Text(self.master, height=10, width=80)
@@ -59,6 +63,32 @@ class SearchView():
         self.textBox.config(state=NORMAL)
         self.textBox.insert(END, result_str)
         self.textBox.config(state=DISABLED)
+
+
+class RefereeStats():
+    def __init__(self, referee_name, referee_surname):
+        print(referee_name)
+        print(referee_surname)
+        self.name = referee_name
+        self.surname = referee_surname
+
+        Label(root, text="", pady=10, padx=5).grid(row=4)
+        Label(root, text="", pady=10, padx=5).grid(row=5)
+        Label(root, text="", pady=10, padx=5).grid(row=6)
+        Label(root, text="", pady=10, padx=5).grid(row=7)
+        Label(root, text="", pady=10, padx=5).grid(row=8)
+
+        Label(root, text="", pady=10, padx=5).grid(row=9)
+
+        self.name_label = Label(root, text=referee_name, pady=10, padx=5)
+        self.name_label.grid(row=10, sticky=W)
+
+        self.surname_label = Label(root, text=referee_surname, pady=10, padx=5)
+        self.surname_label.grid(row=11, sticky=W)
+
+
+
+
 
 
 if __name__ == '__main__':
