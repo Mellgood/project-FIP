@@ -44,17 +44,17 @@ class SearchView():
     def search(self, event):
         name = self.name_entry.get()
         surname = self.surname_entry.get()
-        a = GameFinder(name, surname)
+        self.search_result = GameFinder(name, surname)
 
         result_str = ""
-        for game_number in range(len(a.homeTeams)):
-            result_str += "Referees:" + str(a.referee_terns[game_number]) + "\nHome team:" + a.homeTeams[
-                game_number] + "\nOpponent team:" + str(a.opponentTeams[game_number]) + "\nDate:" + str(
-                a.match_dates[game_number]) + "\nTime:" + str(
-                a.match_times[game_number]) + "\n-----------------------------------------------\n"
+        for game_number in range(len(self.search_result.homeTeams)):
+            result_str += "Referees:" + str(self.search_result.referee_terns[game_number]) + "\nHome team:" + self.search_result.homeTeams[
+                game_number] + "\nOpponent team:" + str(self.search_result.opponentTeams[game_number]) + "\nDate:" + str(
+                self.search_result.match_dates[game_number]) + "\nTime:" + str(
+                self.search_result.match_times[game_number]) + "\n-----------------------------------------------\n"
 
         self.search_text_box(result_str)
-        RefereeStats(self.name_entry.get(), self.surname_entry.get())
+        RefereeStats(self)
 
     def search_text_box(self, result_str):
         self.textBox = Text(self.master, height=10, width=80)
@@ -66,11 +66,12 @@ class SearchView():
 
 
 class RefereeStats():
-    def __init__(self, referee_name, referee_surname):
-        print(referee_name)
-        print(referee_surname)
-        self.name = referee_name
-        self.surname = referee_surname
+    def __init__(self, search_object): #type: (SearchView) -> None
+        print(search_object.name_entry.get())
+        print(search_object.surname_entry.get())
+        self.name = search_object.name_entry.get()
+        self.surname = search_object.surname_entry.get()
+        self.number_of_games = len(search_object.search_result.homeTeams)
 
         Label(root, text="", pady=10, padx=5).grid(row=4)
         Label(root, text="", pady=10, padx=5).grid(row=5)
@@ -80,11 +81,14 @@ class RefereeStats():
 
         Label(root, text="", pady=10, padx=5).grid(row=9)
 
-        self.name_label = Label(root, text=referee_name, pady=10, padx=5)
+        self.name_label = Label(root, text="Name: " + self.name, pady=10, padx=5)
         self.name_label.grid(row=10, sticky=W)
 
-        self.surname_label = Label(root, text=referee_surname, pady=10, padx=5)
+        self.surname_label = Label(root, text="Surname: " + self.surname, padx=5)
         self.surname_label.grid(row=11, sticky=W)
+
+        self.surname_label = Label(root, text="Total games: " + str(self.number_of_games), padx=5)
+        self.surname_label.grid(row=12, sticky=W)
 
 
 
